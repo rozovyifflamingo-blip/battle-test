@@ -1,0 +1,33 @@
+name: Тест доступа к форуму AntiO (Playwright)
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  test-scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout репозитория
+        uses: actions/checkout@v4
+
+      - name: Установка Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Установка зависимостей
+        run: |
+          pip install beautifulsoup4 playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Запуск тестового парсера (headless-браузер)
+        run: python scrape_test2.py
+
+      - name: Сохранить результат как артефакт
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-result-2
+          path: |
+            test_result.json
+            test_result.html
+          if-no-files-found: ignore
