@@ -1,4 +1,4 @@
-name: Тест доступа к форуму AntiO (Playwright)
+name: Тест доступа к форуму AntiO (через прокси)
 
 on:
   workflow_dispatch: {}
@@ -16,17 +16,15 @@ jobs:
           python-version: "3.11"
 
       - name: Установка зависимостей
-        run: |
-          pip install beautifulsoup4 playwright
-          python -m playwright install --with-deps chromium
+        run: pip install requests beautifulsoup4
 
-      - name: Запуск тестового парсера (headless-браузер)
-        run: python scrape_test2.py
+      - name: Запуск теста через прокси
+        run: python scrape_test3.py
 
       - name: Сохранить результат как артефакт
         uses: actions/upload-artifact@v4
         with:
-          name: test-result-2
+          name: test-result-3
           path: |
             test_result.json
             test_result.html
